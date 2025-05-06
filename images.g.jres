@@ -1,0 +1,12 @@
+{
+    "image1": {
+        "data": "hwQRABAAAAAAAAAAAAAA4AAAAAAAAOBOAAAAAADg7uQAAAAA4O5O7gAAAADuTuTuAAAA7u7k7u4AAOTuTu7u7gDuTu7k7u7u7u7uRO7u7u4A7k7u5O7u7gAA5O5O7u7uAAAA7u7k7u4AAAAA7k7k7gAAAADg7k7uAAAAAADg7uQAAAAAAADgTgAAAAAAAADg",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "cone head back"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}
