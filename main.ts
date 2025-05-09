@@ -16,21 +16,14 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.entrance, function (sprite, othe
         tiles.loadMap(forest_temple)
     }
 })
+function attack_power () {
+    attack_power2 = -1 - 0
+}
 scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile33`, function (sprite, location) {
     tiles.loadMap(map)
 })
-sprites.onOverlap(SpriteKind.Player, SpriteKind.coneheads, function (sprite, otherSprite) {
-    knockback()
-    info.changeLifeBy(-1)
-    sprite.sayText("ow.")
-})
-sprites.onOverlap(SpriteKind.Player, SpriteKind.rockheads, function (sprite, otherSprite) {
-    knockback()
-    info.changeLifeBy(-1)
-    sprite.sayText("ow.", 500, false)
-})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
-    projectile = sprites.createProjectileFromSprite(img`
+    base_weapon = sprites.createProjectileFromSprite(img`
         . . . . . . . . 9 . . . . . . . . 
         . . . . . . . . 9 . . . . . . . . 
         . . . . . . . . 9 . . . . . . . . 
@@ -47,9 +40,9 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . 9 . . . . . . . . 
         . . . . . . . . 9 . . . . . . . . 
         . . . . . . . . 9 . . . . . . . . 
-        `, mySprite, 50, 50)
+        `, mySprite, 0, 0)
     animation.runImageAnimation(
-    projectile,
+    base_weapon,
     [img`
         . . . . . . . . 9 . . . . . . . . 
         . . . . . . . . 9 . . . . . . . . 
@@ -69,6 +62,24 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . 9 . . . . . . . . 
         . . . . . . . . 9 . . . . . . . . 
         `,img`
+        . . . . . . . . . . . . 9 . . . . 
+        . . . . . . . . . . . 9 . . . . . 
+        . . . . . . . . . . . 9 . . . . . 
+        . . . . . . . . . . 9 . . . . . . 
+        . . . . . . . . . . 9 . . . . . . 
+        . . . . . . . . . 9 . . . . . . . 
+        . . . . . . . . . 9 . . . . . . . 
+        . . . . . . . . 9 . . . . . . . . 
+        . . . . . . . . 9 . . . . . . . . 
+        . . . . . . . 9 . . . . . . . . . 
+        . . . . . . . 9 . . . . . . . . . 
+        . . . . . . 9 . . . . . . . . . . 
+        . . . . . . 9 . . . . . . . . . . 
+        . . . . . 9 . . . . . . . . . . . 
+        . . . . . 9 . . . . . . . . . . . 
+        . . . . 9 . . . . . . . . . . . . 
+        . . . . 9 . . . . . . . . . . . . 
+        `,img`
         . . . . . . . . . . . . . . . . 9 
         . . . . . . . . . . . . . . . 9 . 
         . . . . . . . . . . . . . . 9 . . 
@@ -86,6 +97,24 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . 9 . . . . . . . . . . . . . . 
         . 9 . . . . . . . . . . . . . . . 
         9 . . . . . . . . . . . . . . . . 
+        `,img`
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 9 
+        . . . . . . . . . . . . . . 9 9 . 
+        . . . . . . . . . . . . 9 9 . . . 
+        . . . . . . . . . . . 9 . . . . . 
+        . . . . . . . . . 9 9 . . . . . . 
+        . . . . . . . . 9 . . . . . . . . 
+        . . . . . . 9 9 . . . . . . . . . 
+        . . . . 9 9 . . . . . . . . . . . 
+        . . . 9 . . . . . . . . . . . . . 
+        . 9 9 . . . . . . . . . . . . . . 
+        9 . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
         `,img`
         . . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . . 
@@ -105,6 +134,24 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . . 
         . . . . . . . . . . . . . . . . . 
         `,img`
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
+        9 . . . . . . . . . . . . . . . . 
+        . 9 9 . . . . . . . . . . . . . . 
+        . . . 9 . . . . . . . . . . . . . 
+        . . . . 9 9 . . . . . . . . . . . 
+        . . . . . . 9 9 . . . . . . . . . 
+        . . . . . . . . 9 . . . . . . . . 
+        . . . . . . . . . 9 9 . . . . . . 
+        . . . . . . . . . . . 9 . . . . . 
+        . . . . . . . . . . . . 9 9 . . . 
+        . . . . . . . . . . . . . . 9 9 . 
+        . . . . . . . . . . . . . . . . 9 
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . . 
+        `,img`
         9 . . . . . . . . . . . . . . . . 
         . 9 . . . . . . . . . . . . . . . 
         . . 9 . . . . . . . . . . . . . . 
@@ -122,10 +169,53 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . 9 . . 
         . . . . . . . . . . . . . . . 9 . 
         . . . . . . . . . . . . . . . . 9 
+        `,img`
+        . . . . 9 . . . . . . . . . . . . 
+        . . . . . 9 . . . . . . . . . . . 
+        . . . . . 9 . . . . . . . . . . . 
+        . . . . . . 9 . . . . . . . . . . 
+        . . . . . . 9 . . . . . . . . . . 
+        . . . . . . . 9 . . . . . . . . . 
+        . . . . . . . 9 . . . . . . . . . 
+        . . . . . . . . 9 . . . . . . . . 
+        . . . . . . . . 9 . . . . . . . . 
+        . . . . . . . . . 9 . . . . . . . 
+        . . . . . . . . . 9 . . . . . . . 
+        . . . . . . . . . . 9 . . . . . . 
+        . . . . . . . . . . 9 . . . . . . 
+        . . . . . . . . . . . 9 . . . . . 
+        . . . . . . . . . . . 9 . . . . . 
+        . . . . . . . . . . . . 9 . . . . 
+        . . . . . . . . . . . . 9 . . . . 
         `],
-    50,
+    25,
     true
     )
+    base_weapon.follow(fire_worms)
+    base_weapon.follow(boss12)
+    base_weapon.follow(rock_heads)
+    base_weapon.follow(cone_head)
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.coneheads, function (sprite, otherSprite) {
+    knockback()
+    info.changeLifeBy(-1)
+    sprite.sayText("ow.")
+})
+sprites.onOverlap(SpriteKind.Player, SpriteKind.rockheads, function (sprite, otherSprite) {
+    knockback()
+    info.changeLifeBy(-1)
+    sprite.sayText("ow.", 500, false)
+})
+function enemy_hp () {
+    rockhead_hp = 5
+    rockhead_dp = 1
+}
+sprites.onOverlap(SpriteKind.Projectile, SpriteKind.rockheads, function (sprite, otherSprite) {
+    sprites.destroy(sprite)
+    rockhead_hp += attack_power2 + rockhead_dp
+    if (rockhead_hp <= 0) {
+        sprites.destroy(otherSprite)
+    }
 })
 controller.B.onEvent(ControllerButtonEvent.Repeated, function () {
     controller.moveSprite(mySprite, 150, 150)
@@ -158,7 +248,9 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`myTile15`, function (sprite, 
     }
 })
 function knockback () {
-    mySprite.setVelocity(50, 50)
+    mySprite.setVelocity(randint(-25, 25), randint(-25, 25))
+    pause(100)
+    mySprite.setVelocity(0, 0)
 }
 tiles.onMapLoaded(function (tilemap2) {
     if (tilemap2 == map) {
@@ -238,7 +330,7 @@ tiles.onMapLoaded(function (tilemap2) {
     }
 })
 function story_mode () {
-    tiles.loadMap(boss_cave)
+    tiles.loadMap(map)
     tiles.placeOnRandomTile(mySprite, sprites.castle.tileGrass3)
 }
 function Enemys () {
@@ -312,11 +404,13 @@ sprites.onOverlap(SpriteKind.Player, SpriteKind.Food, function (sprite, otherSpr
     sprites.destroy(otherSprite, effects.confetti, 100)
     info.changeLifeBy(1)
 })
-let fire_worms: Sprite = null
-let rock_heads: Sprite = null
+let rockhead_dp = 0
+let rockhead_hp = 0
 let cone_head: Sprite = null
+let rock_heads: Sprite = null
 let boss12: Sprite = null
-let projectile: Sprite = null
+let fire_worms: Sprite = null
+let attack_power2 = 0
 let forest_temple_entrance: Sprite = null
 let statusbar: StatusBarSprite = null
 let mySprite: Sprite = null
@@ -326,8 +420,9 @@ let forest_temple: tiles.WorldMap = null
 let space: tiles.WorldMap = null
 let boss_cave: tiles.WorldMap = null
 let map: tiles.WorldMap = null
+let base_weapon: Sprite = null
+let current_weapon = base_weapon
 let highral_Castel = 0
-let all = image.screenImage()
 map = tiles.createMap(tilemap`level9`)
 boss_cave = tiles.createMap(tilemap`level19`)
 space = tiles.createMap(tilemap`level14`)
